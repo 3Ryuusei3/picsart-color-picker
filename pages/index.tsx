@@ -4,20 +4,16 @@ import { useRef, useState } from 'react';
 import { useWindowResize } from "@/hooks/useWindowResize";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useColorDropper } from "@/hooks/useColorDropper";
-import { useTrackCursor } from "@/hooks/useTrackCursor";
 
-import SelectedColorIcon from "@/components/Icons/selectedColorIcon";
-import ColorPickerIcon from "@/components/Icons/colorPickerIcon";
-import getContrastColor from "@/utils/getContrastColor";
+import { ColorDropCursor } from "@/components/atoms/ColorDropCursor";
+import { ControlsPanel } from "@/components/atoms/ControlsPanel";
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const [imageData, setImageData] = useState<ImageData | null>(null);
 
-  const color = useColorDropper(canvasRef, cursorRef);
-  useTrackCursor(canvasRef, cursorRef);
-
+  const { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker } = useColorDropper(canvasRef, cursorRef);
   const { fileInputRef, handleSettingsClick, handleFileChange } = useImageUpload();
   useWindowResize(canvasRef, setImageData);
 
@@ -36,27 +32,26 @@ export default function Home() {
             width={1280}
             height={720}
           />
-          <div className="color-drop__cursor" ref={cursorRef} >
-            <div className="color-drop__tag" style={{ ["--px-color" as string]: color, color: getContrastColor(color) }}>{color.toUpperCase()}</div>
-            <SelectedColorIcon fill={color} />
-          </div>
         </div>
-        <div className="controls__container">
-          <div className="btn-icon">
-            <ColorPickerIcon fill={color} />
-          </div>
-          <div className="btn" onClick={handleSettingsClick}>
-            Upload file
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              ref={fileInputRef}
-              onChange={handleFileChange(canvasRef)}
-            />
-          </div>
-        </div>
+        <ControlsPanel
+          isColorPickerActive={isColorPickerActive}
+          centerColor={centerColor}
+          pickedColor={pickedColor}
+          toggleColorPicker={toggleColorPicker}
+          handleSettingsClick={handleSettingsClick}
+          fileInputRef={fileInputRef}
+          handleFileChange={handleFileChange}
+          canvasRef={canvasRef}
+        />
       </div>
+      <ColorDropCursor
+        cursorRef={cursorRef}
+        isColorPickerActive={isColorPickerActive}
+        centerColor={centerColor}
+        gridLineCount={gridLineCount}
+        gridColumnCount={gridColumnCount}
+        colors={colors}
+      />
     </>
   );
 }

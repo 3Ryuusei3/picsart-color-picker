@@ -4,13 +4,16 @@
   /* Colors */
   --clr-main-black: #060607;
   --clr-secondary-black: #111111;
-  --clr-terciary-black: #222222;
+  --clr-terciary-black: #343434;
   --clr-main-white: #f5f5f5;
   --clr-secondary-white: #f0f0f0;
   --clr-terciary-white: #e0e0e0;
 
   /* Fonts */
   --ff-main: 'Ubuntu', sans-serif;
+
+  /* Color dropper */
+  --side-length: 10rem;
 }
 
 /* Reset and initial setting */
@@ -74,6 +77,7 @@ table {
 }
 
 input,textarea {
+  user-select: auto;
   -webkit-user-select: auto;
 }
 
@@ -85,6 +89,9 @@ canvas {
   display: block;
   border: 1px solid var(--clr-terciary-white);
   background-color: var(--clr-main-black);
+}
+
+.cursor-none {
   cursor: none !important;
 }
 
@@ -138,15 +145,29 @@ canvas {
   &:hover {
     background-color: var(--clr-terciary-black);
   }
+
+  &.active {
+    background-color: var(--clr-terciary-white);
+
+    svg {
+      filter: invert(0);
+    }
+  }
 }
 
 /* Color dropper */
 .color-drop__cursor {
+  display: none;
   position: absolute;
-  width: 8rem;
-  height: 8rem;
-  transform: translate(-100%, -70%);
+  width: var(--side-length);
+  height: var(--side-length);
+  transform: translate(-4rem, -4rem);
   pointer-events: none;
+
+  svg {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .color-drop__tag {
@@ -159,12 +180,51 @@ canvas {
   color: var(--clr-main-white);
   border-radius: 1rem;
   font-size: 0.6rem;
+  filter: drop-shadow(0 0 0.1rem #0000006e);
+  z-index: 3;
   pointer-events: none;
 }
 
-/* Controls panel */
+.color-drop__grid {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--side-length);
+  height: var(--side-length);
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
 
+  div {
+    display: flex;
+    height: calc(var(--side-length) / var(--grid-line-count));
+
+    div {
+      border-bottom: 1px solid var(--clr-main-white);
+      border-right: 1px solid var(--clr-main-white);
+      width: calc(100% / var(--grid-column-count));
+
+      &.picked-color {
+        position: relative;
+        scale: 1.25;
+        border: 1px solid var(--clr-terciary-black);
+        box-shadow: 0 0 0 1px var(--clr-main-white), 0 0 0 2px var(--grid-element-color);
+      }
+    }
+  }
+}
+
+/* Controls panel */
 .controls__container {
   display: flex;
   gap: 1rem;
+}
+
+.selected-color {
+  border: 1px solid var(--clr-main-white);
+  width: 3.5rem;
 }

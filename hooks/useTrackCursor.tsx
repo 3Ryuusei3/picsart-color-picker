@@ -1,6 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useTrackCursor = (canvasRef: React.RefObject<HTMLCanvasElement>, cursorRef: React.RefObject<HTMLDivElement>) => {
+  const [isColorPickerActive, setIsColorPickerActive] = useState(false);
+
+  const toggleColorPicker = () => {
+    setIsColorPickerActive(!isColorPickerActive);
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const cursorDiv = cursorRef.current;
@@ -12,11 +18,19 @@ export const useTrackCursor = (canvasRef: React.RefObject<HTMLCanvasElement>, cu
     };
 
     canvas.addEventListener('mousemove', moveCursor);
-    canvas.addEventListener('mouseenter', () => cursorDiv.style.display = 'block');
+    canvas.addEventListener('mouseenter', () => {
+      if (isColorPickerActive) {
+        cursorDiv.style.display = 'block';
+      }
+    });
     canvas.addEventListener('mouseleave', () => cursorDiv.style.display = 'none');
+
+    console.log(isColorPickerActive)
 
     return () => {
       canvas.removeEventListener('mousemove', moveCursor);
     };
-  }, [canvasRef, cursorRef]);
+  }, [canvasRef, cursorRef, isColorPickerActive]);
+
+  return { isColorPickerActive, toggleColorPicker };
 }
