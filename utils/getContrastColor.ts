@@ -1,4 +1,4 @@
-function getContrastColor(hexColor: string): string {
+export function getContrastColor(hexColor: string) {
   const rgb = parseInt(hexColor.slice(1), 16);
   const r = (rgb >> 16) & 0xff;
   const g = (rgb >>  8) & 0xff;
@@ -9,5 +9,3 @@ function getContrastColor(hexColor: string): string {
 
   return luma < 128 ? 'white' : 'black';
 }
-
-export default getContrastColor;

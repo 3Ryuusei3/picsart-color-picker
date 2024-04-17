@@ -5,8 +5,8 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
   const gridColumnCount = 15;
 
   const [colors, setColors] = useState<string[]>([]);
-  const [centerColor, setCenterColor] = useState<string>('');
-  const [pickedColor, setPickedColor] = useState<string>('');
+  const [centerColor, setCenterColor] = useState<string>('#000000');
+  const [pickedColor, setPickedColor] = useState<string>('#000000');
   const [isColorPickerActive, setIsColorPickerActive] = useState(false);
 
   const toggleColorPicker = () => {
@@ -85,5 +85,4 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
   }, [canvasRef, cursorRef, handleColorPick, handleClick, colors, isColorPickerActive]);
 
   return { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker }
-
 };

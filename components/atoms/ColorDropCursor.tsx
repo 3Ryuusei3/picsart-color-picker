@@ -1,6 +1,6 @@
 import React from 'react';
 import { SelectedColorIcon } from "@/components/Icons/selectedColorIcon";
-import getContrastColor from "@/utils/getContrastColor";
+import { getContrastColor } from "@/utils/getContrastColor";
 
 export const ColorDropCursor = ({
   cursorRef,
