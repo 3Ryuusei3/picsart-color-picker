@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState } from 'react';
 
 export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, cursorRef: React.RefObject<HTMLDivElement>) => {
-  const gridLineCount = 15;
-  const gridColumnCount = 15;
+  const gridLineCount = 51;
+  const gridColumnCount = 51;
 
   const [colors, setColors] = useState<string[]>([]);
   const [centerColor, setCenterColor] = useState<string>('#000000');
@@ -29,10 +29,14 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
+    const gridStartingPointX = x - Math.floor(gridLineCount / 2);
+    const gridStartingPointY = y - Math.floor(gridColumnCount / 2);
+
     let newColors = [];
     for (let i = 0; i < gridLineCount; i++) {
+      let lineColors = [];
       for (let j = 0; j < gridColumnCount; j++) {
-        const imageData = ctx.getImageData(x + i, y + j, 1, 1);
+        const imageData = ctx.getImageData(gridStartingPointX + i, gridStartingPointY + j, 1, 1);
         const pixelData = imageData.data;
 
         const red = pixelData[0];
@@ -40,11 +44,11 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
         const blue = pixelData[2];
 
         const hex = "#" + ((1 << 24) | (red << 16) | (green << 8) | blue).toString(16).slice(1);
-        newColors.push(hex);
+        lineColors.push(hex);
       }
+      newColors.push(...lineColors.reverse());
     }
-
-    setColors(newColors);
+    setColors(newColors.reverse());
 
     const middleIndex = Math.floor(newColors.length / 2);
     setCenterColor(newColors[middleIndex]);

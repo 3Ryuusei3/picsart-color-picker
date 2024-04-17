@@ -161,7 +161,7 @@ canvas {
   position: absolute;
   width: var(--side-length);
   height: var(--side-length);
-  transform: translate(-4rem, -4rem);
+  transform: translate(calc(var(--side-length) / -2), calc(var(--side-length) / -2));
   pointer-events: none;
 
   svg {
