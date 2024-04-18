@@ -8,7 +8,7 @@ import { useZoom } from "@/hooks/useZoom";
 import { ColorDropCursor } from "@/components/atoms/ColorDropCursor";
 import { ControlsPanel } from "@/components/atoms/ControlsPanel";
 
-export function HomePage() {
+export default function HomePage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const [imageData, setImageData] = useState<ImageData | null>(null);
@@ -16,9 +16,7 @@ export function HomePage() {
   const { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker } = useColorDropper(canvasRef, cursorRef);
   const { fileInputRef, handleSettingsClick, handleFileChange, hasImage } = useImageUpload();
   const { zoomLevel, zoomIn, zoomOut } = useZoom();
-
-  useWindowResize(canvasRef, setImageData);
-
+  const { initialCanvasWidth,initialCanvasHeight } = useWindowResize(canvasRef, setImageData);
 
   return (
     <main>
@@ -27,8 +25,8 @@ export function HomePage() {
           <canvas
             style={{ transform: `scale(${zoomLevel})` }}
             ref={canvasRef}
-            width={960}
-            height={540}
+            width={initialCanvasWidth}
+            height={initialCanvasHeight}
           />
         </div>
         <ControlsPanel

@@ -30,6 +30,12 @@ export const ControlsPanel = ({
 
   return (
     <div className="controls__container">
+      <div
+        className="btn-icon"
+        onClick={isOpen ? closeModal : openModal}
+      >
+        <InfoIcon />
+      </div>
       <div className="zoom-controls">
         <span>{Math.round(zoomLevel * 100)}%</span>
         <button className={!hasImage || zoomLevel >= 2 ? 'btn-icon inactive' : 'btn-icon'} onClick={zoomIn}>+</button>
@@ -66,12 +72,6 @@ export const ControlsPanel = ({
           ref={fileInputRef}
           onChange={handleFileChange(canvasRef)}
         />
-      </div>
-      <div
-        className="btn-icon"
-        onClick={isOpen ? closeModal : openModal}
-      >
-        <InfoIcon />
       </div>
       <Toaster
         toastOptions={{

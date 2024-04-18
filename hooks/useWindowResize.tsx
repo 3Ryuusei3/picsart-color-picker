@@ -2,6 +2,8 @@ import { useEffect, useRef, useCallback } from 'react';
 
 export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, setImageData: (data: ImageData | null) => void) => {
   const imageDataRef = useRef<ImageData | null>(null);
+  const initialCanvasWidth = 960;
+  const initialCanvasHeight = 540;
 
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -11,8 +13,8 @@ export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, s
         imageDataRef.current = context.getImageData(0, 0, canvas.width, canvas.height);
         setImageData(imageDataRef.current);
 
-        canvas.width = Math.min(window.innerWidth - 96, 960);
-        canvas.height = Math.min(window.innerHeight - 96, 540);
+        canvas.width = Math.min(window.innerWidth - 64, initialCanvasWidth);
+        canvas.height = Math.min(window.innerHeight - 64, initialCanvasHeight);
 
         if (imageDataRef.current) {
           context.putImageData(imageDataRef.current, 0, 0);
@@ -23,8 +25,11 @@ export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, s
 
   useEffect(() => {
     window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
   }, [resizeCanvas]);
+
+  return { initialCanvasWidth, initialCanvasHeight };
 }
