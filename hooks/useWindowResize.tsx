@@ -11,8 +11,8 @@ export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, s
         imageDataRef.current = context.getImageData(0, 0, canvas.width, canvas.height);
         setImageData(imageDataRef.current);
 
-        canvas.width = Math.min(window.innerWidth - 96, 1280);
-        canvas.height = Math.min(window.innerHeight - 96, 720);
+        canvas.width = Math.min(window.innerWidth - 96, 960);
+        canvas.height = Math.min(window.innerHeight - 96, 540);
 
         if (imageDataRef.current) {
           context.putImageData(imageDataRef.current, 0, 0);

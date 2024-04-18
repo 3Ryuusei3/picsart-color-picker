@@ -12,20 +12,29 @@ import { Toaster } from 'react-hot-toast';
 import { InfoIcon } from '../Icons/infoIcon';
 
 export const ControlsPanel = ({
+  canvasRef,
   handleSettingsClick,
+  toggleColorPicker,
   isColorPickerActive,
   centerColor,
   pickedColor,
   handleFileChange,
   fileInputRef,
-  canvasRef,
-  toggleColorPicker
+  hasImage,
+  zoomLevel,
+  zoomIn,
+  zoomOut
  }: ControlPanelProps) => {
 
   const { isOpen, openModal, closeModal } = useModal();
 
   return (
     <div className="controls__container">
+      <div className="zoom-controls">
+        <span>{Math.round(zoomLevel * 100)}%</span>
+        <button className={!hasImage || zoomLevel >= 2 ? 'btn-icon inactive' : 'btn-icon'} onClick={zoomIn}>+</button>
+        <button className={!hasImage || zoomLevel <= 1 ? 'btn-icon inactive' : 'btn-icon'} onClick={zoomOut}>-</button>
+      </div>
       <div
         className='selected-color__container'
         style={{ backgroundColor: pickedColor }}

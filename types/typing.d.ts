@@ -35,6 +35,10 @@ interface ControlPanelProps {
   handleSettingsClick: () => void;
   handleFileChange: (canvasRef: React.RefObject<HTMLCanvasElement>) => (event: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
+  hasImage: boolean;
+  zoomLevel: number;
+  zoomIn: () => void;
+  zoomOut: () => void;
 }
 
 interface ModalProps {

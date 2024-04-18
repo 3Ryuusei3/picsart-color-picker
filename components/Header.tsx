@@ -5,7 +5,7 @@ export const Header = () => {
     <header>
       <div className='header__container'>
         <WebLogoIcon />
-        <a href="" className='btn btn--secondary'>Contact me!</a>
+        <a href="mailto:atance3@hotmail.com" className='btn btn--secondary'>Contact me!</a>
       </div>
     </header>
   )

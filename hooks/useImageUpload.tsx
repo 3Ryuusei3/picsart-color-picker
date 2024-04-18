@@ -4,6 +4,7 @@ export const useImageUpload = () => {
   const [scale, setScale] = useState<number>(1);
   const [image, setImage] = useState<ImageType | null>(null);
   const [imagePos, setImagePos] = useState<PositionType>({x1: 0, y1: 0, x2: 0, y2: 0});
+  const [hasImage, setHasImage] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,31 +22,34 @@ export const useImageUpload = () => {
       const ctx = canvasRef.current?.getContext('2d');
       if (!ctx || !canvasRef.current) return;
 
-      let x = (canvasRef.current.width / 2) - (img.width / 2) * scale;
-      let y = (canvasRef.current.height / 2) - (img.height / 2) * scale;
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+      let newScale = scale;
 
       if (img.width > canvasRef.current.width || img.height > canvasRef.current.height) {
-        setScale(Math.min(
+        newScale = Math.min(
           canvasRef.current.width / img.width,
           canvasRef.current.height / img.height
-        ));
-
-        x = (canvasRef.current.width / 2) - (img.width / 2) * scale;
-        y = (canvasRef.current.height / 2) - (img.height / 2) * scale;
+        );
       }
 
-      const newImage = { image: img, pos: { x1: x, y1: y, x2: x + img.width * scale, y2: y + img.height * scale }, scale };
-      ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+      const x = (canvasRef.current.width / 2) - (img.width / 2) * newScale;
+      const y = (canvasRef.current.height / 2) - (img.height / 2) * newScale;
+
+      const newImage = { image: img, pos: { x1: x, y1: y, x2: x + img.width * newScale, y2: y + img.height * newScale }, scale: newScale };
+      ctx.drawImage(img, x, y, img.width * newScale, img.height * newScale);
       setImage(newImage);
       setImagePos({
         x1: x,
         y1: y,
-        x2: x + img.width * scale,
-        y2: y + img.height * scale
+        x2: x + img.width * newScale,
+        y2: y + img.height * newScale
       });
+      setScale(newScale);
+      setHasImage(true);
     };
     img.src = url;
   };
 
-  return { fileInputRef, handleSettingsClick, handleFileChange };
+  return { fileInputRef, handleSettingsClick, handleFileChange, hasImage };
 }
