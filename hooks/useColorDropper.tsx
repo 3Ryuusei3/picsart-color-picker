@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState } from 'react';
 
 export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, cursorRef: React.RefObject<HTMLDivElement>) => {
-  const gridLineCount = 51;
-  const gridColumnCount = 51;
+  const gridLineCount = 25;
+  const gridColumnCount = 25;
 
   const [colors, setColors] = useState<string[]>([]);
   const [centerColor, setCenterColor] = useState<string>('#000000');
@@ -49,7 +49,6 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
       newColors.push(...lineColors.reverse());
     }
     setColors(newColors.reverse());
-
     const middleIndex = Math.floor(newColors.length / 2);
     setCenterColor(newColors[middleIndex]);
   }, [canvasRef, isColorPickerActive]);

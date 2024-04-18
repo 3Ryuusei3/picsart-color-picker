@@ -36,3 +36,9 @@ interface ControlPanelProps {
   handleFileChange: (canvasRef: React.RefObject<HTMLCanvasElement>) => (event: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
 }
+
+interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  children: React.ReactNode;
+}

@@ -1,9 +1,15 @@
 import React from 'react';
+
+import { useModal } from '@/hooks/useModal';
+
 import { ColorPickerIcon } from "@/components/Icons/colorPickerIcon";
+import { Modal } from './Modal';
+
 import { getContrastColor } from "@/utils/getContrastColor";
 import { copyToClipboard } from '@/utils/copyToClipboard';
 
 import { Toaster } from 'react-hot-toast';
+import { InfoIcon } from '../Icons/infoIcon';
 
 export const ControlsPanel = ({
   handleSettingsClick,
@@ -15,6 +21,8 @@ export const ControlsPanel = ({
   canvasRef,
   toggleColorPicker
  }: ControlPanelProps) => {
+
+  const { isOpen, openModal, closeModal } = useModal();
 
   return (
     <div className="controls__container">
@@ -50,6 +58,12 @@ export const ControlsPanel = ({
           onChange={handleFileChange(canvasRef)}
         />
       </div>
+      <div
+        className="btn-icon"
+        onClick={isOpen ? closeModal : openModal}
+      >
+        <InfoIcon />
+      </div>
       <Toaster
         toastOptions={{
           style: {
@@ -59,6 +73,16 @@ export const ControlsPanel = ({
           icon: '🎨',
         }}
       />
+      <Modal isOpen={isOpen} closeModal={closeModal}>
+        <h1>How to use</h1>
+        <ul>
+          <li>Upload an image from your computer</li>
+          <li>Activate the color picker tool</li>
+          <li>Select any color from the picture</li>
+          <li>Copy the hex code from the palette</li>
+        </ul>
+        <i>Enjoy!</i>
+      </Modal>
     </div>
   );
 }

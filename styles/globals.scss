@@ -7,13 +7,16 @@
   --clr-terciary-black: #343434;
   --clr-main-white: #f5f5f5;
   --clr-secondary-white: #f0f0f0;
-  --clr-terciary-white: #e0e0e0;
+  --clr-terciary-white: #e0e0e087;
 
   /* Fonts */
   --ff-main: 'Ubuntu', sans-serif;
 
   /* Color dropper */
   --side-length: 10rem;
+
+  /* Max width */
+  --max-width: 1280px;
 }
 
 /* Reset and initial setting */
@@ -33,6 +36,11 @@ body, #__next {
   min-height: 100vh;
   position: relative;
   font-family: var(--ff-main);
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
 }
 
 html {
@@ -63,8 +71,11 @@ a {
   text-decoration: none;
 }
 
-menu,ol,summary,ul {
-  list-style: none;
+ul {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 img {
@@ -97,15 +108,15 @@ canvas {
 
 /* Utility classes */
 .page-container {
-  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
-  max-width: 1280px;
+  gap: 1rem;
+  max-width: var(--max-width);
   margin-inline: auto;
+  margin-block: 2rem;
   padding-inline: 2rem;
 }
 
@@ -118,7 +129,8 @@ canvas {
 
 .btn {
   display: inline-block;
-  padding: 1rem 4rem;
+  padding: 1rem 3rem;
+  background-color: var(--clr-primary-black);
   color: var(--clr-main-white);
   border: 1px solid var(--clr-main-white);
   text-align: center;
@@ -127,8 +139,19 @@ canvas {
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: var(--clr-terciary-black);
+    background-color: var(--clr-main-white);
+    color: var(--clr-main-black);
+  }
+
+  &.btn--secondary {
+    background-color: var(--clr-secondary-black);
     color: var(--clr-main-white);
+    border: 1px solid var(--clr-main-white);
+
+    &:hover {
+      background-color: var(--clr-secondary-white);
+      color: var(--clr-main-black);
+    }
   }
 }
 
@@ -139,15 +162,22 @@ canvas {
   transition: all 0.3s ease;
 
   svg {
+    width: 24px;
+    height: 24px;
     filter: invert(1);
+    transition: all 0.3s ease;
   }
 
   &:hover {
-    background-color: var(--clr-terciary-black);
+    background-color: var(--clr-main-white);
+
+    svg {
+      filter: invert(0);
+    }
   }
 
   &.active {
-    background-color: var(--clr-terciary-white);
+    background-color: var(--clr-secondary-white);
 
     svg {
       filter: invert(0);
@@ -155,7 +185,31 @@ canvas {
   }
 }
 
+/* Header */
+header {
+  width: 100%;
+  background-color: var(--clr-secondary-black);
+  border-bottom: 1px solid var(--clr-terciary-white);
+
+  .header__container {
+    padding: 1.5rem 0.5rem;
+    margin-inline: auto;
+    max-width: var(--max-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    svg {
+      width: 120px;
+    }
+  }
+}
+
 /* Color dropper */
+main {
+  margin-block: auto;
+}
+
 .color-drop__cursor {
   display: none;
   position: absolute;
@@ -197,6 +251,7 @@ canvas {
   height: var(--side-length);
   border-radius: 50%;
   overflow: hidden;
+  rotate: 90deg;
   z-index: 1;
 
   div {
@@ -232,5 +287,69 @@ canvas {
 
   div {
     bottom: -10px;
+  }
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  width: 100%;
+  background-color: var(--clr-secondary-black);
+  border-top: 1px solid var(--clr-terciary-white);
+
+  .footer__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline: auto;
+    max-width: var(--max-width);
+    padding: 1.5rem 0.5rem;
+    color: var(--clr-main-white)
+  }
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #06060761;
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem;
+    color: var(--clr-main-white);
+    background-color: var(--clr-tericary-black);
+    border: 1px solid var(--clr-main-white);
+
+    &--close {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    h1 {
+      text-align: center;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    i {
+      text-align: center;
+    }
   }
 }
