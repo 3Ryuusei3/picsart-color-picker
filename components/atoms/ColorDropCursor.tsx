@@ -8,7 +8,9 @@ export const ColorDropCursor = ({
   centerColor,
   gridLineCount,
   gridColumnCount,
-  colors
+  colors,
+  pickedColor,
+  hasTwoColors,
  }: ColorDropCursorProps) => {
   return (
     <div className={`color-drop__cursor ${isColorPickerActive ? '' : 'hidden'}`} ref={cursorRef} >
@@ -20,7 +22,7 @@ export const ColorDropCursor = ({
         }}>
           {centerColor.toUpperCase()}
       </div>
-      <SelectedColorIcon fill={centerColor} />
+      <SelectedColorIcon fill={centerColor} fill2={hasTwoColors ? pickedColor : centerColor} />
       <div className="color-drop__grid">
         {[...Array(gridLineCount)].map((_, i) => (
           <div key={i} className="color-drop__grid--line" style={{ ["--grid-line-count" as string]: gridLineCount }} >

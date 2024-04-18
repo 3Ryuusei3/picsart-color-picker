@@ -2,14 +2,15 @@ import React from 'react';
 
 import { useModal } from '@/hooks/useModal';
 
-import { ColorPickerIcon } from "@/components/Icons/colorPickerIcon";
 import { Modal } from './Modal';
+import { ImageUploadInput } from '@/components/atoms/ImageUploadInput';
+import { ColorPickerIcon } from "@/components/Icons/colorPickerIcon";
+import { InfoIcon } from '@/components/Icons/infoIcon';
 
 import { getContrastColor } from "@/utils/getContrastColor";
 import { copyToClipboard } from '@/utils/copyToClipboard';
 
 import { Toaster } from 'react-hot-toast';
-import { InfoIcon } from '../Icons/infoIcon';
 
 export const ControlsPanel = ({
   canvasRef,
@@ -21,9 +22,13 @@ export const ControlsPanel = ({
   handleFileChange,
   fileInputRef,
   hasImage,
+  imageWillBeScaled,
+  handleImageScaling,
   zoomLevel,
   zoomIn,
-  zoomOut
+  zoomOut,
+  toggleTwoColors,
+  hasTwoColors,
  }: ControlPanelProps) => {
 
   const { isOpen, openModal, closeModal } = useModal();
@@ -64,14 +69,8 @@ export const ControlsPanel = ({
         <ColorPickerIcon fill={centerColor} />
       </div>
       <div className="btn" onClick={handleSettingsClick}>
-        Upload file
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          ref={fileInputRef}
-          onChange={handleFileChange(canvasRef)}
-        />
+        Upload image
+        <ImageUploadInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} canvasRef={canvasRef} />
       </div>
       <Toaster
         toastOptions={{
@@ -90,7 +89,18 @@ export const ControlsPanel = ({
           <li>Select any color from the picture</li>
           <li>Copy the hex code from the palette</li>
         </ul>
-        <i>Enjoy!</i>
+        <div>
+        <small>Extra options:</small>
+          <label htmlFor="canvas-scaling" className='checkbox__container'>
+            <input type="checkbox" name="canvas-scaling" id="canvas-scaling" onChange={handleImageScaling} checked={!imageWillBeScaled} />
+            <span>Scale canvas to fit image upon upload</span>
+          </label>
+          <label htmlFor="dropper-two-colors" className='checkbox__container'>
+            <input type="checkbox" name="dropper-two-colors" id="dropper-two-colors" onChange={toggleTwoColors} checked={hasTwoColors} />
+            <span>Enable two-color dropper</span>
+          </label>
+        </div>
+        <i>- Enjoy -</i>
       </Modal>
     </div>
   );

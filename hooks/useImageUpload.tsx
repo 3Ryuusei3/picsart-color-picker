@@ -5,12 +5,17 @@ export const useImageUpload = () => {
   const [image, setImage] = useState<ImageType | null>(null);
   const [imagePos, setImagePos] = useState<PositionType>({x1: 0, y1: 0, x2: 0, y2: 0});
   const [hasImage, setHasImage] = useState<boolean>(false);
+  const [imageWillBeScaled, setImageWillBeScaled] = useState<boolean>(true);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSettingsClick = () => {
     fileInputRef.current?.click();
   };
+
+  const handleImageScaling = () => {
+    setImageWillBeScaled(!imageWillBeScaled);
+  }
 
   const handleFileChange = (canvasRef: React.RefObject<HTMLCanvasElement>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -26,11 +31,15 @@ export const useImageUpload = () => {
 
       let newScale = scale;
 
-      if (img.width > canvasRef.current.width || img.height > canvasRef.current.height) {
+      if (imageWillBeScaled && (img.width > canvasRef.current.width || img.height > canvasRef.current.height)) {
         newScale = Math.min(
           canvasRef.current.width / img.width,
           canvasRef.current.height / img.height
         );
+      } else {
+        canvasRef.current.width = img.width;
+        canvasRef.current.height = img.height;
+        newScale = 1;
       }
 
       const x = (canvasRef.current.width / 2) - (img.width / 2) * newScale;
@@ -51,5 +60,5 @@ export const useImageUpload = () => {
     img.src = url;
   };
 
-  return { fileInputRef, handleSettingsClick, handleFileChange, hasImage };
+  return { fileInputRef, handleSettingsClick, handleFileChange, hasImage, imageWillBeScaled, handleImageScaling };
 }

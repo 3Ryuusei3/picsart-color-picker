@@ -10,6 +10,9 @@
   --clr-secondary-white: #f0f0f0;
   --clr-terciary-white: #e0e0e087;
 
+  --clr-dark-fuchsia: #ba007c;
+  --clr-purple: #5c1eb8;
+
   /* Fonts */
   --ff-main: 'Ubuntu', sans-serif;
 
@@ -97,15 +100,57 @@ textarea {
   white-space: revert;
 }
 
+.checkbox__container {
+  display: flex;
+  align-items: center;
+  input[type="checkbox"] {
+    display: none;
+
+    & + span::after {
+      content: "";
+      display: block;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      position: relative;
+      bottom: 16px;
+      left: 7px;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:checked + span::after {
+      opacity: 1;
+    }
+  }
+
+  span {
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      position: relative;
+      bottom: -4px;
+      background: linear-gradient(45deg, var(--clr-dark-fuchsia), var(--clr-purple));
+      border: 1px solid var(--clr-terciary-white);
+      border-radius: 3px;
+    }
+  }
+}
+
 /* Utility classes */
 .page-container {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  max-width: var(--max-width);
+  /* max-width: var(--max-width); */
   margin-inline: auto;
   margin-block: 2rem;
   padding-inline: 2rem;
@@ -197,6 +242,7 @@ header {
 
       &:hover {
         scale: 1.02;
+        rotate: -1deg;
         filter: drop-shadow(0 0 1rem rgba(252, 0, 214, 0.385));
       }
     }
@@ -207,13 +253,29 @@ header {
 canvas {
   display: block;
   background-color: var(--clr-secondary-black);
+  transition: all 0.3s ease-in-out;
 }
 
-.canvas-container {
+.canvas__container {
   position: relative;
   background: linear-gradient(270deg, var(--clr-terciary-black), var(--clr-secondary-black));
   overflow: hidden;
   border: 1px solid var(--clr-terciary-white);
+
+  &--overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--clr-terciary-white);
+    text-align: center;
+    cursor: pointer;
+  }
 }
 
 .cursor-none {
@@ -363,7 +425,9 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
   background-color: #1900314f;
+  z-index: 9999;
 
   &__content {
     position: relative;
@@ -395,6 +459,12 @@ footer {
 
     i {
       text-align: center;
+    }
+
+    label {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.9rem;
     }
   }
 }

@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState } from 'react';
 
 export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, cursorRef: React.RefObject<HTMLDivElement>) => {
-  const gridLineCount = 25;
-  const gridColumnCount = 25;
+  const gridLineCount = 17;
+  const gridColumnCount = 17;
 
   const [colors, setColors] = useState<string[]>([]);
   const [centerColor, setCenterColor] = useState<string>('#000000');

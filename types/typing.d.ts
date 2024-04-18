@@ -13,6 +13,7 @@ type PositionType = {
 
 type iconType = {
   fill?: string;
+  fill2?: string;
   stroke?: string;
 };
 
@@ -24,6 +25,8 @@ interface ColorDropCursorProps {
   gridLineCount: number;
   gridColumnCount: number;
   colors: string[];
+  pickedColor: string;
+  hasTwoColors: boolean;
 }
 
 interface ControlPanelProps {
@@ -36,9 +39,19 @@ interface ControlPanelProps {
   handleFileChange: (canvasRef: React.RefObject<HTMLCanvasElement>) => (event: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
   hasImage: boolean;
+  imageWillBeScaled: boolean;
+  handleImageScaling: () => void;
   zoomLevel: number;
   zoomIn: () => void;
   zoomOut: () => void;
+  toggleTwoColors: () => void;
+  hasTwoColors: boolean;
+}
+
+interface ImageUploadInputProps {
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+  fileInputRef: React.Ref<HTMLInputElement>;
+  handleFileChange: (canvasRef: React.RefObject<HTMLCanvasElement>) => (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface ModalProps {
