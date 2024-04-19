@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { useWindowResize } from "@/hooks/useWindowResize";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useColorDropper } from "@/hooks/useColorDropper";
-import { useZoom } from "@/hooks/useZoom";
 
 import { ColorDropCursor } from "@/components/atoms/ColorDropCursor";
 import { ControlsPanel } from "@/components/atoms/ControlsPanel";
@@ -18,7 +17,6 @@ export default function HomePage() {
 
   const { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker, setGridLineCount, setGridColumnCount, } = useColorDropper(canvasRef, cursorRef);
   const { fileInputRef, handleSettingsClick, handleFileChange, hasImage, imageWillBeScaled, handleImageScaling } = useImageUpload();
-  const { zoomLevel, zoomIn, zoomOut } = useZoom();
   const { initialCanvasWidth,initialCanvasHeight } = useWindowResize(canvasRef, setImageData, imageWillBeScaled);
 
   return (
@@ -26,7 +24,6 @@ export default function HomePage() {
       <div className="page-container">
         <div className="canvas__container">
           <canvas
-            style={{ transform: `scale(${zoomLevel})` }}
             ref={canvasRef}
             width={initialCanvasWidth}
             height={initialCanvasHeight}
@@ -52,9 +49,6 @@ export default function HomePage() {
           hasImage={hasImage}
           imageWillBeScaled={imageWillBeScaled}
           handleImageScaling={handleImageScaling}
-          zoomLevel={zoomLevel}
-          zoomIn={zoomIn}
-          zoomOut={zoomOut}
           toggleTwoColors={toggleTwoColors}
           hasTwoColors={hasTwoColors}
           gridLineCount={gridLineCount}

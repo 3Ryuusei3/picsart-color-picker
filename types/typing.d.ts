@@ -41,9 +41,6 @@ interface ControlPanelProps {
   hasImage: boolean;
   imageWillBeScaled: boolean;
   handleImageScaling: () => void;
-  zoomLevel: number;
-  zoomIn: () => void;
-  zoomOut: () => void;
   toggleTwoColors: () => void;
   hasTwoColors: boolean;
   gridLineCount: number;

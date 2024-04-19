@@ -20,12 +20,8 @@ export const ControlsPanel = ({
   pickedColor,
   handleFileChange,
   fileInputRef,
-  hasImage,
   imageWillBeScaled,
   handleImageScaling,
-  zoomLevel,
-  zoomIn,
-  zoomOut,
   toggleTwoColors,
   hasTwoColors,
   gridLineCount,
@@ -43,11 +39,6 @@ export const ControlsPanel = ({
         onClick={isOpen ? closeModal : openModal}
       >
         <InfoIcon />
-      </div>
-      <div className="zoom-controls">
-        <span>{Math.round(zoomLevel * 100)}%</span>
-        <button className={!hasImage || zoomLevel >= 2 ? 'btn-icon inactive' : 'btn-icon'} onClick={zoomIn}>+</button>
-        <button className={!hasImage || zoomLevel <= 1 ? 'btn-icon inactive' : 'btn-icon'} onClick={zoomOut}>-</button>
       </div>
       <div
         className='selected-color__container'
