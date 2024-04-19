@@ -3,7 +3,6 @@ import React from 'react';
 import { useModal } from '@/hooks/useModal';
 
 import { Modal } from './Modal';
-import { ImageUploadInput } from '@/components/atoms/ImageUploadInput';
 import { ColorPickerIcon } from "@/components/Icons/colorPickerIcon";
 import { InfoIcon } from '@/components/Icons/infoIcon';
 
@@ -29,6 +28,10 @@ export const ControlsPanel = ({
   zoomOut,
   toggleTwoColors,
   hasTwoColors,
+  gridLineCount,
+  gridColumnCount,
+  setGridLineCount,
+  setGridColumnCount,
  }: ControlPanelProps) => {
 
   const { isOpen, openModal, closeModal } = useModal();
@@ -70,7 +73,13 @@ export const ControlsPanel = ({
       </div>
       <div className="btn" onClick={handleSettingsClick}>
         Upload image
-        <ImageUploadInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} canvasRef={canvasRef} />
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          ref={fileInputRef}
+          onChange={handleFileChange(canvasRef)}
+        />
       </div>
       <Toaster
         toastOptions={{
@@ -98,6 +107,20 @@ export const ControlsPanel = ({
           <label htmlFor="dropper-two-colors" className='checkbox__container'>
             <input type="checkbox" name="dropper-two-colors" id="dropper-two-colors" onChange={toggleTwoColors} checked={hasTwoColors} />
             <span>Enable two-color dropper</span>
+          </label>
+          <label htmlFor="set-grid-size" className='range__container'>
+            <span>Change grid size. Current: <b>{gridLineCount}</b></span>
+            <input
+              type="range"
+              min="7"
+              max="35"
+              step="2"
+              value={gridLineCount}
+              onChange={(e) => {
+                setGridLineCount(parseInt(e.target.value));
+                setGridColumnCount(parseInt(e.target.value));
+              }}
+            />
           </label>
         </div>
         <i>- Enjoy -</i>

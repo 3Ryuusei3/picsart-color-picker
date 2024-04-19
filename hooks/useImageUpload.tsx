@@ -58,6 +58,7 @@ export const useImageUpload = () => {
       setHasImage(true);
     };
     img.src = url;
+    event.target.value = '';
   };
 
   return { fileInputRef, handleSettingsClick, handleFileChange, hasImage, imageWillBeScaled, handleImageScaling };

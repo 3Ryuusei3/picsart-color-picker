@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState } from 'react';
 
 export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, cursorRef: React.RefObject<HTMLDivElement>) => {
-  const gridLineCount = 17;
-  const gridColumnCount = 17;
+  const [gridLineCount, setGridLineCount] = useState<number>(17);
+  const [gridColumnCount, setGridColumnCount] = useState<number>(17);
 
   const [colors, setColors] = useState<string[]>([]);
   const [centerColor, setCenterColor] = useState<string>('#000000');
@@ -29,8 +29,8 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const gridStartingPointX = x - Math.floor(gridLineCount / 2);
-    const gridStartingPointY = y - Math.floor(gridColumnCount / 2);
+    const gridStartingPointX = x - Math.ceil(gridLineCount / 2);
+    const gridStartingPointY = y - Math.ceil(gridColumnCount / 2);
 
     let newColors = [];
     for (let i = 0; i < gridLineCount; i++) {
@@ -49,9 +49,9 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
       newColors.push(...lineColors.reverse());
     }
     setColors(newColors.reverse());
-    const middleIndex = Math.floor(newColors.length / 2);
+    const middleIndex = Math.ceil(newColors.length / 2);
     setCenterColor(newColors[middleIndex]);
-  }, [canvasRef, isColorPickerActive]);
+  }, [canvasRef, isColorPickerActive, gridLineCount, gridColumnCount]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -87,5 +87,5 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
     };
   }, [canvasRef, cursorRef, handleColorPick, handleClick, colors, isColorPickerActive]);
 
-  return { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker }
+  return { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker, setGridLineCount, setGridColumnCount }
 };

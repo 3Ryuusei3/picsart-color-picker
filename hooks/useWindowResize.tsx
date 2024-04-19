@@ -1,11 +1,13 @@
 import { useEffect, useRef, useCallback } from 'react';
 
-export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, setImageData: (data: ImageData | null) => void) => {
+export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, setImageData: (data: ImageData | null) => void, imageWillBeScaled: boolean) => {
   const imageDataRef = useRef<ImageData | null>(null);
   const initialCanvasWidth = 960;
   const initialCanvasHeight = 540;
 
   const resizeCanvas = useCallback(() => {
+    if (!imageWillBeScaled) return; // Agregar esta línea
+
     const canvas = canvasRef.current;
     if (canvas && canvas.getContext) {
       const context = canvas.getContext('2d');
@@ -21,15 +23,17 @@ export const useWindowResize = (canvasRef: React.RefObject<HTMLCanvasElement>, s
         }
       }
     }
-  }, [canvasRef, setImageData]);
+  }, [canvasRef, setImageData, imageWillBeScaled]);
 
   useEffect(() => {
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    if (imageWillBeScaled) {
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+    }
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
-  }, [resizeCanvas]);
+  }, [resizeCanvas, imageWillBeScaled]);
 
   return { initialCanvasWidth, initialCanvasHeight };
 }

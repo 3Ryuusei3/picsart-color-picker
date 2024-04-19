@@ -28,7 +28,7 @@ export const ColorDropCursor = ({
           <div key={i} className="color-drop__grid--line" style={{ ["--grid-line-count" as string]: gridLineCount }} >
             {[...Array(gridColumnCount)].map((_, j) => {
 
-              const isMiddle = i === Math.floor(gridLineCount / 2) && j === Math.floor(gridColumnCount / 2);
+            const isMiddle = i === Math.ceil(gridLineCount / 2) - 1 && j === Math.ceil(gridColumnCount / 2) - 1;
               return (
                 <div
                   key={j}

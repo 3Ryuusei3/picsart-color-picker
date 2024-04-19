@@ -46,6 +46,10 @@ interface ControlPanelProps {
   zoomOut: () => void;
   toggleTwoColors: () => void;
   hasTwoColors: boolean;
+  gridLineCount: number;
+  gridColumnCount: number;
+  setGridLineCount: (count: number) => void;
+  setGridColumnCount: (count: number) => void;
 }
 
 interface ImageUploadInputProps {

@@ -7,7 +7,6 @@ import { useZoom } from "@/hooks/useZoom";
 
 import { ColorDropCursor } from "@/components/atoms/ColorDropCursor";
 import { ControlsPanel } from "@/components/atoms/ControlsPanel";
-import { ImageUploadInput } from '@/components/atoms/ImageUploadInput';
 
 export default function HomePage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,10 +16,10 @@ export default function HomePage() {
 
   const toggleTwoColors = () => setHasTwoColors((prev) => !prev);
 
-  const { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker } = useColorDropper(canvasRef, cursorRef);
+  const { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker, setGridLineCount, setGridColumnCount, } = useColorDropper(canvasRef, cursorRef);
   const { fileInputRef, handleSettingsClick, handleFileChange, hasImage, imageWillBeScaled, handleImageScaling } = useImageUpload();
   const { zoomLevel, zoomIn, zoomOut } = useZoom();
-  const { initialCanvasWidth,initialCanvasHeight } = useWindowResize(canvasRef, setImageData);
+  const { initialCanvasWidth,initialCanvasHeight } = useWindowResize(canvasRef, setImageData, imageWillBeScaled);
 
   return (
     <main>
@@ -38,7 +37,6 @@ export default function HomePage() {
               onClick={handleSettingsClick}
             >
               <h1>Upload an image to start!</h1>
-              <ImageUploadInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} canvasRef={canvasRef} />
             </div>
           )}
         </div>
@@ -59,6 +57,10 @@ export default function HomePage() {
           zoomOut={zoomOut}
           toggleTwoColors={toggleTwoColors}
           hasTwoColors={hasTwoColors}
+          gridLineCount={gridLineCount}
+          gridColumnCount={gridColumnCount}
+          setGridLineCount={setGridLineCount}
+          setGridColumnCount={setGridColumnCount}
         />
       </div>
       <ColorDropCursor
