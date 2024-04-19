@@ -109,7 +109,7 @@ export const ControlsPanel = ({
             <span>Enable two-color dropper</span>
           </label>
           <label htmlFor="set-grid-size" className='range__container'>
-            <span>Change grid size. Current: <b>{gridLineCount}</b></span>
+            <span>Change color picker preview size. Current: <b>{gridLineCount}</b></span>
             <input
               type="range"
               min="7"
