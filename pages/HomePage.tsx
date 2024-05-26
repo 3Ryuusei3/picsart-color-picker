@@ -1,8 +1,11 @@
-import { useRef, useState } from 'react';
+"use client"
+
+import { useRef, useState, useEffect } from 'react';
 
 import { useWindowResize } from "@/hooks/useWindowResize";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useColorDropper } from "@/hooks/useColorDropper";
+import { usePaintTool } from "@/hooks/usePaintTool";
 
 import { ColorDropCursor } from "@/components/atoms/ColorDropCursor";
 import { ControlsPanel } from "@/components/atoms/ControlsPanel";
@@ -18,6 +21,11 @@ export default function HomePage() {
   const { gridLineCount, gridColumnCount, colors, centerColor, pickedColor, isColorPickerActive, toggleColorPicker, setGridLineCount, setGridColumnCount, } = useColorDropper(canvasRef, cursorRef);
   const { fileInputRef, handleSettingsClick, handleFileChange, hasImage, imageWillBeScaled, handleImageScaling } = useImageUpload();
   const { initialCanvasWidth,initialCanvasHeight } = useWindowResize(canvasRef, setImageData, imageWillBeScaled);
+  const { setBrushColor, paintingMode, setPaintingMode } = usePaintTool(canvasRef);
+
+  useEffect(() => {
+    setBrushColor(pickedColor);
+  }, [pickedColor, setBrushColor]);
 
   return (
     <main>
@@ -55,6 +63,8 @@ export default function HomePage() {
           gridColumnCount={gridColumnCount}
           setGridLineCount={setGridLineCount}
           setGridColumnCount={setGridColumnCount}
+          paintingMode={paintingMode}
+          setPaintingMode={setPaintingMode}
         />
       </div>
       <ColorDropCursor

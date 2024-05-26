@@ -47,6 +47,8 @@ interface ControlPanelProps {
   gridColumnCount: number;
   setGridLineCount: (count: number) => void;
   setGridColumnCount: (count: number) => void;
+  paintingMode: boolean;
+  setPaintingMode: (mode: boolean) => void;
 }
 
 interface ImageUploadInputProps {

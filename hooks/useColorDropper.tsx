@@ -29,8 +29,8 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const gridStartingPointX = x - Math.ceil(gridLineCount / 2);
-    const gridStartingPointY = y - Math.ceil(gridColumnCount / 2);
+    const gridStartingPointX = x - Math.floor(gridLineCount / 2) -1;
+    const gridStartingPointY = y - Math.floor(gridColumnCount / 2) -1;
 
     let newColors = [];
     for (let i = 0; i < gridLineCount; i++) {
@@ -49,7 +49,7 @@ export const useColorDropper = (canvasRef: React.RefObject<HTMLCanvasElement>, c
       newColors.push(...lineColors.reverse());
     }
     setColors(newColors.reverse());
-    const middleIndex = Math.ceil(newColors.length / 2);
+    const middleIndex = Math.ceil(newColors.length / 2) - 1;
     setCenterColor(newColors[middleIndex]);
   }, [canvasRef, isColorPickerActive, gridLineCount, gridColumnCount]);
 

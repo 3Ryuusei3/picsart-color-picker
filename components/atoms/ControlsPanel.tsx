@@ -5,6 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { Modal } from './Modal';
 import { ColorPickerIcon } from "@/components/Icons/colorPickerIcon";
 import { InfoIcon } from '@/components/Icons/infoIcon';
+import { BrushIcon } from '../Icons/brushIcon';
 
 import { getContrastColor } from "@/utils/getContrastColor";
 import { copyToClipboard } from '@/utils/copyToClipboard';
@@ -28,6 +29,8 @@ export const ControlsPanel = ({
   gridColumnCount,
   setGridLineCount,
   setGridColumnCount,
+  paintingMode,
+  setPaintingMode
  }: ControlPanelProps) => {
 
   const { isOpen, openModal, closeModal } = useModal();
@@ -58,9 +61,25 @@ export const ControlsPanel = ({
       </div>
       <div
         className={isColorPickerActive ? "btn-icon active" : "btn-icon"}
-        onClick={toggleColorPicker}
+        onClick={() => {
+          toggleColorPicker();
+          if (paintingMode) {
+            setPaintingMode(false);
+          }
+        }}
       >
         <ColorPickerIcon fill={centerColor} />
+      </div>
+      <div
+        className={paintingMode ? "btn-icon active" : "btn-icon"}
+        onClick={() => {
+          setPaintingMode(!paintingMode);
+          if (isColorPickerActive) {
+            toggleColorPicker();
+          }
+        }}
+      >
+        <BrushIcon fill={centerColor} />
       </div>
       <div className="btn" onClick={handleSettingsClick}>
         Upload image
